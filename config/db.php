@@ -12,9 +12,9 @@
 function connection()
 {
     $config = [
-        'dns'       => 'mysql:host=127.0.0.1;dbname=shop-local;charset=utf8',
-        'username'  => 'root',
-        'password'  => '',
+        'dns'       => 'mysql:host=192.168.0.2;dbname=gopagoda;charset=utf8',
+        'username'  => 'latosha',
+        'password'  => '0kXcCYWG',
     ];
     $db = new PDO($config['dns'], $config['username'], $config['password']);
     $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
