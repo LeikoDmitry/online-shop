@@ -1,3 +1,7 @@
+build:
+  type: php
+  version: 5.6
+  stability: production
 web1:
   shared_writable_dirs:
     - tmp
