@@ -1,0 +1,15 @@
+AddDefaultCharset utf-8
+Options +FollowSymLinks
+Options -Indexes
+DirectoryIndex index.php
+RewriteEngine On
+RewriteBase /
+RewriteRule ^([a-z]+)/([a-z]+)/([0-9]+)/$ /?controller=$1&action=$2&id=$3&%{QUERY_STRING} [NS,L]
+RewriteRule ^([a-z]+)/([a-z]+)/$ /?controller=$1&action=$2&%{QUERY_STRING} [NS,L]
+RewriteRule ^([a-z]+)/([0-9]+)/$ /?controller=$1&id=$2&%{QUERY_STRING} [NS,L]
+RewriteRule ^([a-z]+)/$ /?controller=$1&%{QUERY_STRING} [NS,L]
+RewriteCond $1 !^(index\.php)
+RewriteCond %{REQUEST_URI} !\.(css│js│jpg│gif)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
