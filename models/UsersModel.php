@@ -20,22 +20,24 @@ function registerNewUser(PDO $PDO, array $data)
         'phone'            => FILTER_SANITIZE_STRING,
         'adress'           => FILTER_SANITIZE_STRING,
     ]);
-    $verify_password_string = $user['password'];
-    $user['password'] = isset($user['password']) ? password_hash($user['password'], PASSWORD_BCRYPT) : false;
-    if (in_array(false, $user, true)) {
-        $_SESSION['errors'] = $user;
-        return false;
-    };
-    if (! hash_equals($verify_password_string, $valide['confirm_password'])) {
-        $_SESSION['errors'] = ['password' => false];
-        return false;
-    }
-    $sql = 'INSERT INTO users(email, password, name, phone, adress) VALUES (:email, :password, :name, :phone, :adress)';
-    $statement = $PDO->prepare($sql);
-    $statement->execute($user);
-    $rs = $statement->rowCount();
-    if ($rs) {
-        return loginUser($PDO, ['email' => $user['email'], 'password' => $verify_password_string]);
+    if (checkEmailUser($PDO, $user['email'])) {
+        $verify_password_string = $user['password'];
+        $user['password'] = isset($user['password']) ? password_hash($user['password'], PASSWORD_BCRYPT) : false;
+        if (in_array(false, $user, true)) {
+            $_SESSION['errors'] = $user;
+            return false;
+        };
+        if (! hash_equals($verify_password_string, $valide['confirm_password'])) {
+            $_SESSION['errors'] = ['password' => false];
+            return false;
+        }
+        $sql = 'INSERT INTO users(email, password, name, phone, adress) VALUES (:email, :password, :name, :phone, :adress)';
+        $statement = $PDO->prepare($sql);
+        $statement->execute($user);
+        $rs = $statement->rowCount();
+        if ($rs) {
+            return loginUser($PDO, ['email' => $user['email'], 'password' => $verify_password_string]);
+        }
     }
     return false;
 }
@@ -60,6 +62,23 @@ function loginUser(PDO $PDO, array $data)
     $us = $state->fetch(PDO::FETCH_ASSOC);
     if (password_verify($data['password'], $us['password'])) {
         return $us;
+    }
+    return false;
+}
+
+/**
+ * Проверка email в базе
+ * @param PDO $PDO
+ * @param $email
+ * @return bool
+ */
+function checkEmailUser(PDO $PDO, $email)
+{
+    $sql = 'SELECT * FROM users WHERE email = :email';
+    $state = $PDO->prepare($sql);
+    $state->execute(['email' => $email]);
+    if (! $state->fetch(PDO::FETCH_ASSOC)) {
+        return true;
     }
     return false;
 }

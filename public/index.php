@@ -1,11 +1,11 @@
 <?php
+
 session_start();
+
 if (! isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
-if (! isset($_SESSION['user'])) {
-    $_SESSION['user'] = [];
-}
+
 if (! isset($_SESSION['errors'])) {
     $_SESSION['errors'] = [];
 }
@@ -23,5 +23,13 @@ include __DIR__ . '/../library/functions.php';
 $controller = isset($_GET['controller']) ? ucfirst($_GET['controller']) : 'Index';
 /** @var  $action - определяем с какой функцией будем работать */
 $action     = isset($_GET['action']) ? $_GET['action'] : 'index';
+
+if (isset($_SESSION['user'])) {
+    $smarty->assign('arrayUser', $_SESSION['user']);
+}
+
+if (isset($_SESSION['cart'])) {
+    $smarty->assign('cartCounts', count($_SESSION['cart']));
+}
 
 loadPage($smarty, $controller, $action);

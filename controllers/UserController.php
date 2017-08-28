@@ -9,6 +9,35 @@ include_once __DIR__ . '/../models/CategoryModel.php';
 include_once __DIR__ . '/../models/ProductsModel.php';
 include_once __DIR__ . '/../models/UsersModel.php';
 
+
+/**
+ * Страница пользователя
+ * @param Smarty $smarty
+ * @return bool
+ */
+function indexAction(Smarty $smarty)
+{
+    if (! isset($_SESSION['user'])) {
+        header('Location: /user/login/');
+        return false;
+    }
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        $categories = getAllCategories(connection());
+        $smarty->assign('pageTitle', 'Страница пользователя');
+        $smarty->assign('categories', $categories);
+        loadTemplate($smarty, 'header');
+        loadTemplate($smarty, 'user');
+        loadTemplate($smarty, 'footer');
+        return true;
+    }
+    return true;
+}
+
+/**
+ * Регистрация пользователя
+ * @param Smarty $smarty
+ * @return bool
+ */
 function registerAction(Smarty $smarty)
 {
     if (isset($_SESSION['errors'])) {
@@ -30,6 +59,7 @@ function registerAction(Smarty $smarty)
         header('Location: /user/');
         return true;
     }
+    $_SESSION['errors'] = ['email' => false];
     header('Location: /user/register/');
     return true;
 }
@@ -62,5 +92,21 @@ function loginAction(Smarty $smarty)
     }
     $_SESSION['errors'] = ['password' => false];
     header('Location: /user/login/');
+    return true;
+}
+
+/**
+ * Выход пользователя
+ * @return $this
+ */
+function logoutAction()
+{
+    if (isset($_SESSION['user'])) {
+        unset($_SESSION['user']);
+        unset($_SESSION['cart']);
+        session_regenerate_id();
+        header('Location: /');
+        return $this;
+    }
     return true;
 }

@@ -30,7 +30,7 @@ $smarty->setCompileDir(__DIR__ . '/../tmp/smarty/templates_c');
 $smarty->setCacheDir(__DIR__ . '/../tmp/smarty/cache');
 $smarty->setConfigDir(__DIR__ . '/../library/smarty/config');
 $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
-$smarty->assign('cartCounts', count($_SESSION['cart']));
+
 
 
 

@@ -26,11 +26,20 @@
         </ul>
         <div class="dropdown show">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Клиентам
+                {if isset($arrayUser)}
+                    {$arrayUser['name']}
+                {else}
+                    Клиетам
+                {/if}
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="/user/login/">Вход</a>
-                <a class="dropdown-item" href="/user/register/">Регистрация</a>
+                {if isset($arrayUser)}
+                    <a class="dropdown-item" href="/user/">Главная</a>
+                    <a class="dropdown-item" href="/user/logout/">Выход</a>
+                {else}
+                    <a class="dropdown-item" href="/user/login/">Вход</a>
+                    <a class="dropdown-item" href="/user/register/">Регистрация</a>
+                {/if}
             </div>
         </div>
     </div>
