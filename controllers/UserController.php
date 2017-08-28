@@ -33,3 +33,34 @@ function registerAction(Smarty $smarty)
     header('Location: /user/register/');
     return true;
 }
+
+/**
+ * Экшен входа пользователя
+ * @param Smarty $smarty
+ * @return bool
+ */
+function loginAction(Smarty $smarty)
+{
+    if (isset($_SESSION['errors'])) {
+        $smarty->assign('errors', $_SESSION['errors']);
+        unset($_SESSION['errors']);
+    }
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        $categories = getAllCategories(connection());
+        $smarty->assign('pageTitle', 'Авторизация');
+        $smarty->assign('categories', $categories);
+        loadTemplate($smarty, 'header');
+        loadTemplate($smarty, 'login');
+        loadTemplate($smarty, 'footer');
+        return true;
+    }
+    $user = loginUser(connection(), $_POST);
+    if ($user !== false) {
+        $_SESSION['user'] = $user;
+        header('Location: /user/');
+        return true;
+    }
+    $_SESSION['errors'] = ['password' => false];
+    header('Location: /user/login/');
+    return true;
+}

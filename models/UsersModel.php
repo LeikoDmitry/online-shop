@@ -35,14 +35,31 @@ function registerNewUser(PDO $PDO, array $data)
     $statement->execute($user);
     $rs = $statement->rowCount();
     if ($rs) {
-        $sql = 'SELECT * FROM users WHERE email = :email AND  password = :password';
-        $state = $PDO->prepare($sql);
-        $state->execute(['email' => $user['email'], 'password' => $user['password']]);
-        $us = $state->fetch(PDO::FETCH_ASSOC);
-        if (password_verify($verify_password_string, $user['password'])) {
-            return $us;
-        }
-        return false;
+        return loginUser($PDO, ['email' => $user['email'], 'password' => $verify_password_string]);
+    }
+    return false;
+}
+
+/**
+ * Функция входа пользователя
+ * @param PDO $PDO
+ * @param array $data
+ * @return bool|mixed
+ */
+function loginUser(PDO $PDO, array $data)
+{
+    $data = array_map('trim', $data);
+    $user = filter_var_array($data, [
+        'email'            => FILTER_VALIDATE_EMAIL,
+        'password'         => FILTER_SANITIZE_STRING,
+    ]);
+    $hash = password_hash($data['password'], PASSWORD_BCRYPT);
+    $sql = 'SELECT * FROM users WHERE email = :email';
+    $state = $PDO->prepare($sql);
+    $state->execute(['email' => $user['email']]);
+    $us = $state->fetch(PDO::FETCH_ASSOC);
+    if (password_verify($data['password'], $us['password'])) {
+        return $us;
     }
     return false;
 }
