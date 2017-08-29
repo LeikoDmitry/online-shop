@@ -70,15 +70,43 @@ function loginUser(PDO $PDO, array $data)
  * Проверка email в базе
  * @param PDO $PDO
  * @param $email
+ * @param $get
  * @return bool
  */
-function checkEmailUser(PDO $PDO, $email)
+function checkEmailUser(PDO $PDO, $email, $get = false)
 {
     $sql = 'SELECT * FROM users WHERE email = :email';
     $state = $PDO->prepare($sql);
     $state->execute(['email' => $email]);
+    if ($get === true) {
+        return $state->fetch(PDO::FETCH_ASSOC);
+    }
     if (! $state->fetch(PDO::FETCH_ASSOC)) {
         return true;
     }
+    return false;
+}
+
+
+/**
+ * Обновление данных пользователя
+ * @param PDO $PDO
+ * @param array $data
+ * @return bool
+ */
+function updateUserData(PDO $PDO, array $data)
+{
+    $data = array_map('trim', $data);
+    $data = filter_var_array($data, [
+        'name' => FILTER_SANITIZE_STRING,
+        'phone' => FILTER_SANITIZE_STRING,
+        'adress' => FILTER_SANITIZE_STRING,
+    ]);
+    $data['email'] = isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : false;
+    $sql = 'UPDATE users SET name = :name, phone = :phone, adress = :adress WHERE email = :email';
+    $state = $PDO->prepare($sql);
+    if ($state->execute($data)) {
+        return true;
+    };
     return false;
 }

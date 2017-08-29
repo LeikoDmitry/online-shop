@@ -30,6 +30,12 @@ function indexAction(Smarty $smarty)
         loadTemplate($smarty, 'footer');
         return true;
     }
+    if (updateUserData(connection(), $_POST) === true) {
+        $user = checkEmailUser(connection(), $_SESSION['user']['email'], true);
+        unset($_SESSION['user']);
+        $_SESSION['user'] = $user;
+    }
+    header('Location: /user/');
     return true;
 }
 
@@ -106,7 +112,7 @@ function logoutAction()
         unset($_SESSION['cart']);
         session_regenerate_id();
         header('Location: /');
-        return $this;
+        return true;
     }
-    return true;
+    return false;
 }
