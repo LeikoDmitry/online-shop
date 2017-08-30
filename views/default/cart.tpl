@@ -3,7 +3,7 @@
     {if ! $products}
         В корзине пусто
     {else}
-        <form method="post" action="/cart/addorder/">
+        <form method="post" action="/cart/order/">
             <table class="table table-hover table-responsive">
                 <thead>
                 <tr class="table-dark">
@@ -22,7 +22,7 @@
                         <td>{$product['name']}</td>
                         <td>
                             <div class="form-group">
-                                <input name="item_count_{$product['id']}" onchange="conversionPrice({$product['id']})" min="1" class="form-control"
+                                <input name="{$product['id']}" onchange="conversionPrice({$product['id']})" min="1" class="form-control"
                                        type="number" id="item_count_{$product['id']}" value="1"/>
                             </div>
                         </td>

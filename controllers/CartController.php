@@ -87,13 +87,39 @@ function removetocartAction()
  * Добавление заказа
  * @return bool
  */
-function addorderAction()
+function orderAction(Smarty $smarty)
 {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         header('Location: /cart/');
-        return true;
+        return false;
     }
     $items = isset($_SESSION['cart']) ? $_SESSION['cart'] : null;
-    var_dump($items);
+    if (! $items) {
+        header('Location: /cart/');
+        return false;
+    }
+    $data = $_POST;
+    $products = getProductsFromArray(connection(), $items);
+    foreach ($products as &$product) {
+        $product['count'] = isset($data[$product['id']]) ? $data[$product['id']] : null;
+        if ($product['count']) {
+            $product['realPrice'] = $product['count'] * $product['price'];
+        }
+    }
+    $_SESSION['saleCart'] = $products;
+    $categories = getAllCategories(connection());
+    $smarty->assign('rsProducts', $products);
+    $smarty->assign('pageTitle', 'Потверждение заказа');
+    $smarty->assign('categories', $categories);
+    loadTemplate($smarty, 'header');
+    loadTemplate($smarty, 'order');
+    loadTemplate($smarty, 'footer');
+    return true;
+}
+
+
+function saveorderAction()
+{
+    var_dump($_POST);
     exit;
 }
