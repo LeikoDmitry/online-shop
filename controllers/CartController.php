@@ -82,3 +82,18 @@ function removetocartAction()
     ]);
     exit();
 }
+
+/**
+ * Добавление заказа
+ * @return bool
+ */
+function addorderAction()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: /cart/');
+        return true;
+    }
+    $items = isset($_SESSION['cart']) ? $_SESSION['cart'] : null;
+    var_dump($items);
+    exit;
+}

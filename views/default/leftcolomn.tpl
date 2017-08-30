@@ -13,12 +13,5 @@
             {/if}
         {/foreach}
     </ul>
-    <div class="card border-primary mb-3" style="max-width: 20rem;">
-        <div class="card-header">Корзина</div>
-        <div class="card-body text-primary">
-            <h4 class="card-title">{if $cartCounts > 0} {$cartCounts} {else} Пусто {/if}</h4>
-            <p class="card-text"><a href="/cart/">Перейти в корзину</a></p>
-        </div>
-    </div>
 </nav>
 

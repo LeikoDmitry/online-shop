@@ -24,6 +24,12 @@
                 <a class="nav-link" href="/">Главная</a>
             </li>
         </ul>
+        <div style="padding-right: 10px;">
+            <a href="/cart/" class="btn btn-outline-info">Корзина <span class="badge badge-info">
+                    {if $cartCounts > 0} {$cartCounts} {else} 0 {/if}
+                    </span>
+            </a>
+        </div>
         <div class="dropdown show">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {if isset($arrayUser)}
