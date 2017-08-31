@@ -117,9 +117,18 @@ function orderAction(Smarty $smarty)
     return true;
 }
 
+/**
+ * Сохранение заказа
+ */
+function orderuserAction()
+{
 
+}
+
+/**
+ * Сохранение пользователя и заказа
+ */
 function saveorderAction()
 {
-    var_dump($_POST);
-    exit;
+
 }
