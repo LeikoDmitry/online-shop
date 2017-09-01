@@ -1,6 +1,31 @@
 {* Страница пользователя *}
 <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
     <h1>{$pageTitle}</h1>
+    <div class="jumbotron">
+        <h2>Заказы</h2>
+        <table class="table table-response">
+            <thead>
+            <tr class="bg-success">
+                <th>ID заказа</th>
+                <th>Статус</th>
+                <th>Дата создания</th>
+                <th>Дата оплаты</th>
+                <th>Дополнительная информация</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $rsUserOrders as $order}
+                <tr>
+                    <th>{$order['id']}</th>
+                    <td>{$order['status']}</td>
+                    <td>{$order['date_created']}</td>
+                    <td>{$order['date_payment']}</td>
+                    <td>{$order['comment']}</td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
     <form method="post">
         <div class="form-group">
             <label for="inputEmail4" class="col-form-label">Email</label>

@@ -23,8 +23,10 @@ function indexAction(Smarty $smarty)
     }
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         $categories = getAllCategories(connection());
+        $rsUserOrders = getCurUserOrders(connection());
         $smarty->assign('pageTitle', 'Страница пользователя');
         $smarty->assign('categories', $categories);
+        $smarty->assign('rsUserOrders', $rsUserOrders);
         loadTemplate($smarty, 'header');
         loadTemplate($smarty, 'user');
         loadTemplate($smarty, 'footer');

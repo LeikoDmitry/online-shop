@@ -9,6 +9,7 @@ include_once __DIR__ . '/../models/CategoryModel.php';
 include_once __DIR__ . '/../models/ProductsModel.php';
 include_once __DIR__ . '/../models/OrdersModel.php';
 include_once __DIR__ . '/../models/PurchesModel.php';
+include_once __DIR__ . '/../models/UsersModel.php';
 
 
 /**
@@ -146,6 +147,7 @@ function saveorderAction()
         if (setOrderForPurshed(connection(), $id, $saleCart) === true) {
             if (isset($_SESSION['cart'])) {
                 unset($_SESSION['cart']);
+                unset($_SESSION['saleCart']);
             }
             header('Location: /user/');
             return true;
@@ -160,5 +162,47 @@ function saveorderAction()
  */
 function orderuserAction()
 {
-
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: /cart/');
+        return false;
+    }
+    $items = isset($_SESSION['cart']) ? $_SESSION['cart'] : null;
+    if (! $items) {
+        header('Location: /cart/');
+        return false;
+    }
+    $data = $_POST;
+    $products = getProductsFromArray(connection(), $items);
+    foreach ($products as &$product) {
+        $product['count'] = isset($data[$product['id']]) ? $data[$product['id']] : null;
+        if ($product['count']) {
+            $product['realPrice'] = $product['count'] * $product['price'];
+        }
+    }
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    $checkEmail = checkEmailUser(connection(), $email);
+    if ($checkEmail === false) {
+        header('Location: /user/login/');
+        return false;
+    }
+    $response = registerNewUser(connection(), $_POST);
+    if (! $response) {
+        header('Location: /cart/');
+        return false;
+    }
+    $_SESSION['user'] = $response;
+    $id = makeNewOrder(connection());
+    if ($id === false){
+        $_SESSION['errors'] = ['order' => false];
+        header('Location: /cart/');
+    }
+    if (setOrderForPurshed(connection(), $id, $products) === true) {
+        if (isset($_SESSION['cart'])) {
+            unset($_SESSION['cart']);
+            unset($_SESSION['saleCart']);
+        }
+        header('Location: /user/');
+        return true;
+    }
+    header('Location: /cart/');
 }

@@ -90,8 +90,9 @@
                 </table>
                 <table class="table table-responsive">
                     <tr class="table-info">
-                        <th>Name</th>
                         <th>Email</th>
+                        <th>Name</th>
+                        <th>Comment</th>
                         <th>Password</th>
                         <th>Confirm Password</th>
                     </tr>
@@ -101,6 +102,9 @@
                         </td>
                         <td>
                             <input name="name" class="form-control" id="inputName" placeholder="Name">
+                        </td>
+                        <td>
+                            <textarea name="adress" class="form-control" placeholder="Comment"></textarea>
                         </td>
                         <td>
                             <input type="password" name="password" class="form-control" id="inputPassword3"

@@ -110,3 +110,31 @@ function updateUserData(PDO $PDO, array $data)
     };
     return false;
 }
+
+/**
+ * Получение всех заказов пользователя
+ * @param PDO $PDO
+ * @return array
+ */
+function getCurUserOrders(PDO $PDO)
+{
+    $userId = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 0;
+    $sql = 'SELECT * FROM orders WHERE user_id = :user_id ORDER BY id DESC ';
+    $statement = $PDO->prepare($sql);
+    $statement->execute(['user_id' => $userId]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
