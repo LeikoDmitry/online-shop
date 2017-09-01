@@ -34,3 +34,15 @@ function loadTemplate(Smarty $smarty, $templateName)
     $smarty->display($templateName . TEMPLATE_POSTFIX);
     return true;
 }
+
+/**
+ * Функция отладки
+ * @param array|string $items
+ */
+function dump($items)
+{
+    echo '<pre>';
+    print_r($items);
+    echo '</pre>';
+    exit;
+}

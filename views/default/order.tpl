@@ -17,23 +17,19 @@
                     <tr>
                         <td>
                             {$product['id']}
-                            <input type="hidden" name="id_{$product['id']}" value="{$product['id']}">
                         </td>
                         <td>
                             {$product['name']}
-                            <input type="hidden" name="name_{$product['id']}" value="{$product['name']}">
                         </td>
                         <td>
                             {$product['count']}
-                            <input type="hidden" name="count_{$product['id']}" value="{$product['count']}">
                         </td>
                         <td>
                             {$product['price']}
-                            <input type="hidden" name="price_{$product['id']}" value="{$product['price']}">
                         </td>
                         <td>
                             {$product['realPrice']}
-                            <input type="hidden" name="realPrice_{$product['id']}" value="{$product['realPrice']}">
+                            <input type="hidden" name="confirm" value="1">
                         </td>
                     </tr>
                 {/foreach}

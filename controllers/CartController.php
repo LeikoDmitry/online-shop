@@ -7,6 +7,9 @@
 /** Подключение модели */
 include_once __DIR__ . '/../models/CategoryModel.php';
 include_once __DIR__ . '/../models/ProductsModel.php';
+include_once __DIR__ . '/../models/OrdersModel.php';
+include_once __DIR__ . '/../models/PurchesModel.php';
+
 
 /**
  * Формирование страницы корзина
@@ -99,6 +102,9 @@ function orderAction(Smarty $smarty)
         return false;
     }
     $data = $_POST;
+    if (isset($_SESSION['saleCart'])) {
+        unset($_SESSION['saleCart']);
+    }
     $products = getProductsFromArray(connection(), $items);
     foreach ($products as &$product) {
         $product['count'] = isset($data[$product['id']]) ? $data[$product['id']] : null;
@@ -120,15 +126,39 @@ function orderAction(Smarty $smarty)
 /**
  * Сохранение заказа
  */
-function orderuserAction()
+function saveorderAction()
 {
-
+    $saleCart = isset($_SESSION['saleCart']) ? $_SESSION['saleCart'] : [];
+    if (! $saleCart) {
+        header('Location: /cart/');
+        return false;
+    }
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: /cart/');
+        return false;
+    }
+    if (isset($_POST['confirm']) && $_POST['confirm'] !== null) {
+        $id = makeNewOrder(connection());
+        if ($id === false){
+            $_SESSION['errors'] = ['order' => false];
+            header('Location: /cart/');
+        }
+        if (setOrderForPurshed(connection(), $id, $saleCart) === true) {
+            if (isset($_SESSION['cart'])) {
+                unset($_SESSION['cart']);
+            }
+            header('Location: /user/');
+            return true;
+        }
+    }
+    header('Location: /user/');
+    return true;
 }
 
 /**
  * Сохранение пользователя и заказа
  */
-function saveorderAction()
+function orderuserAction()
 {
 
 }
