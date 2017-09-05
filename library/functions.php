@@ -17,10 +17,13 @@ function loadPage(Smarty $smarty, $controller, $action = 'index')
     if (file_exists($file)) {
         include_once $file;
         $method = $action . 'Action';
+        set_error_handler(function ($severity, $message, $file, $line){
+            throw new ErrorException($message, 0, $severity, $file, $line);
+        });
         call_user_func($method, $smarty);
         return true;
     }
-    return false;
+    throw new BadFunctionCallException('Функции с таким именем не существует');
 }
 
 /**
@@ -42,7 +45,7 @@ function loadTemplate(Smarty $smarty, $templateName)
 function dump($items)
 {
     echo '<pre>';
-    print_r($items);
+        print_r($items);
     echo '</pre>';
     exit;
 }

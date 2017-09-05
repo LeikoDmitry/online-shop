@@ -22,9 +22,13 @@ $smarty->assign('templateWebPath', TEMPLATE_WEB_ADMIN);
  */
 function indexAction(Smarty $smarty)
 {
-    $smarty->assign('pageTitle', 'Администраторская часть');
-    loadTemplate($smarty, 'admin-header');
-    loadTemplate($smarty, 'admin-index');
-    loadTemplate($smarty, 'admin-footer');
-    return true;
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $rsCategories = getAllCategories(connection());
+        $smarty->assign('rsCategories', $rsCategories);
+        $smarty->assign('pageTitle', 'Администраторская часть');
+        loadTemplate($smarty, 'admin-header');
+        loadTemplate($smarty, 'admin-index');
+        loadTemplate($smarty, 'admin-footer');
+        return true;
+    }
 }

@@ -4,18 +4,22 @@
         <div class="form-group">
             <label for="inputNameCategory" class="col-sm-2 col-form-label">Название категории</label>
             <div class="col-sm-10">
-                <input class="form-control" id="inputNameCategory" placeholder="Категория">
+                <input name="name" class="form-control" id="inputNameCategory" placeholder="Название категории">
             </div>
         </div>
         <div class="form-group">
             <label for="select_category" class="col-sm-3 col-form-label">Выбрать категорию родителя</label>
             <div class="col-sm-10">
-                <select class="form-control" id="select_category" name="id_category">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select class="form-control" id="select_category" name="parent_id">
+                    <option value="0">Главная</option>
+                    {foreach $rsCategories as $category}
+                        <option value="{$category['id']}">{$category['name']}</option>
+                        {if isset($category['children'])}
+                            {foreach $category['children'] as $child}
+                                <option value="{$child['id']}">{$child['name']}</option>
+                            {/foreach}
+                        {/if}
+                    {/foreach}
                 </select>
             </div>
         </div>

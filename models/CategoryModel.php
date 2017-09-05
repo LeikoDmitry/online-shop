@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * Модель категорий
+ */
+
+/**
  * Получение категорий для меню
  * @param PDO $PDO
  * @return array
@@ -26,7 +30,6 @@ function getCategoriesByParent(PDO $PDO)
  */
 function getAllCategories(PDO $PDO, $parent = 0)
 {
-
     $rows = [];
     $response = getCategoriesByParent($PDO);
     foreach ($response as $key) {

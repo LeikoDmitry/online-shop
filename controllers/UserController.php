@@ -4,6 +4,7 @@
  * Контроллер пользователей
  */
 
+
 /** Подключение модели */
 include_once __DIR__ . '/../models/CategoryModel.php';
 include_once __DIR__ . '/../models/ProductsModel.php';
