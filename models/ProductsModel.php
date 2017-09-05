@@ -75,5 +75,18 @@ function getProductsFromArray(PDO $PDO, array $items)
     }
 }
 
+/**
+ * Получение всех продуктов из базы
+ * @param PDO $PDO
+ * @return array
+ */
+function getProducts(PDO $PDO)
+{
+    $sql = "SELECT * FROM products ORDER BY category_id";
+    $statement = $PDO->prepare($sql);
+    $statement->execute([]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 

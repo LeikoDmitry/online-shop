@@ -55,3 +55,38 @@ function getCategoryById(PDO $PDO, $id)
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
+
+/**
+ * Добавление категорий
+ * @param PDO $PDO
+ * @param array $data
+ * @return string
+ */
+function addCategories(PDO $PDO, array $data)
+{
+    $data = filter_var_array($data, [
+        'name'      => FILTER_SANITIZE_STRING,
+        'parent_id' => FILTER_VALIDATE_INT,
+    ]);
+    foreach ($data as $value) {
+        if ($value === "" ) {
+            return false;
+        }
+    }
+    $sql = 'INSERT INTO categories (`name`, `parent_id`) VALUES (:name, :parent_id)';
+    $statement = $PDO->prepare($sql);
+    $statement->execute($data);
+    return $PDO->lastInsertId();
+}
+
+function updateCategory(PDO $PDO, array $store)
+{
+    $sql = 'UPDATE categories SET `name` = :name, `parent_id` = :parent_id WHERE `id` = :id';
+    $statement = $PDO->prepare($sql);
+    return $statement->execute([
+        'name' => $store['name'],
+        'id' => $store['id'],
+        'parent_id' => $store['parent_id'],
+    ]);
+}
+

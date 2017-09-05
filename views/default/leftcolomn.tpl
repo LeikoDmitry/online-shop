@@ -4,11 +4,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/category/{$category['id']}/">{$category['name']}</a>
             </li>
-            {if isset($category['children'])}
+            {if is_array($category['children'])}
                 {foreach $category['children'] as $child}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/category/{$child['id']}/">---{$child['name']}</a>
-                    </li>
+                    <a class="nav-link" href="/category/{$child['id']}/">---{$child['name']}</a>
                 {/foreach}
             {/if}
         {/foreach}
