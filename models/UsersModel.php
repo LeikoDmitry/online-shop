@@ -118,12 +118,36 @@ function updateUserData(PDO $PDO, array $data)
  */
 function getCurUserOrders(PDO $PDO)
 {
+    $smartyRs = [];
     $userId = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 0;
     $sql = 'SELECT * FROM orders WHERE user_id = :user_id ORDER BY id DESC ';
     $statement = $PDO->prepare($sql);
     $statement->execute(['user_id' => $userId]);
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+    {
+        $rsChildren = getPurchesOrders($PDO, $row['id']);
+        if ($rsChildren) {
+            $row['children'] = $rsChildren;
+        }
+        $smartyRs[] = $row;
+    }
+    return $smartyRs;
 }
+
+function getPurchesOrders(PDO $PDO, $orderId)
+{
+    $sql = "SELECT * 
+            FROM purchase 
+            JOIN products 
+            ON purchase.product_id = products.id 
+            WHERE purchase.order_id = :order_id";
+    $statement = $PDO->prepare($sql);
+    $statement->execute(['order_id' => $orderId]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+
 
 
 

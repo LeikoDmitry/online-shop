@@ -6,6 +6,7 @@
         <table class="table table-response">
             <thead>
             <tr class="bg-success">
+                <th>Показать товар</th>
                 <th>ID заказа</th>
                 <th>Статус</th>
                 <th>Дата создания</th>
@@ -16,12 +17,43 @@
             <tbody>
             {foreach $rsUserOrders as $order}
                 <tr>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal_{$order['id']}">
+                            Показать товар
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal_{$order['id']}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Информация по продукту</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {if $order['children']}
+                                            {foreach $order['children'] as $child}
+                                                <p>{$child['name']}</p>
+                                                <p>{$child['price']}</p>
+                                                <p>{$child['amount']}</p>
+                                                <hr>
+                                            {/foreach}
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                     <th>{$order['id']}</th>
                     <td>{$order['status']}</td>
                     <td>{$order['date_created']}</td>
                     <td>{$order['date_payment']}</td>
                     <td>{$order['comment']}</td>
                 </tr>
+                <!-- Button trigger modal -->
+                <!-- Modal -->
             {/foreach}
             </tbody>
         </table>
