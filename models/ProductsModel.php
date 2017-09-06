@@ -88,5 +88,41 @@ function getProducts(PDO $PDO)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function addProduct(PDO $PDO, array $data)
+{
+    $empty = array_map(function (){
+        return (empty($item));
+    }, $data);
+    if (in_array(false, $empty, true)) {
+        return false;
+    }
+    $pathFile = 'default.png';
+    if ($_FILES['image']['error'] != UPLOAD_ERR_NO_FILE) {
+        $pathFile = uploadImages($_FILES);
+    }
+    $data['image'] = $pathFile;
+    $sql = 'INSERT 
+            INTO products (name , price, status, category_id, description, image) 
+            VALUES (:name, :price, :status, :category_id, :description, :image)';
+    $statement = $PDO->prepare($sql);
+    return $statement->execute($data);
+}
 
-
+function uploadImages(array $data)
+{
+    if (! is_uploaded_file($data['image']['tmp_name'])) {
+        return false;
+    }
+    if (UPLOAD_ERR_OK != $data['image']['error']) {
+        return false;
+    }
+    $tmp_name = $data['image']['tmp_name'];
+    $unique_dir = uniqid();
+    $dir = __DIR__ . '/../public/upload/' . $unique_dir;
+    mkdir($dir, 0777, true);
+    $name = $data['image']['name'];
+    if (! move_uploaded_file($tmp_name, $dir . '/' . $name)) {
+        return false;
+    }
+    return $unique_dir . '/' . $name;
+}

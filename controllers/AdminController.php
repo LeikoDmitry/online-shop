@@ -69,13 +69,21 @@ function categoryAction(Smarty $smarty)
  */
 function productsAction(Smarty $smarty)
 {
-    $rsAllCategories = getCategoriesByParent(connection());
-    $rsProducts = getProducts(connection());
-    $smarty->assign('pageTitle', 'Страница редактирования товаров');
-    $smarty->assign('rsCategories', $rsAllCategories);
-    $smarty->assign('rsProducts', $rsProducts);
-    loadTemplate($smarty, 'admin-header');
-    loadTemplate($smarty, 'admin-product');
-    loadTemplate($smarty, 'admin-footer');
-    return true;
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $rsAllCategories = getCategoriesByParent(connection());
+        $rsProducts = getProducts(connection());
+        $smarty->assign('pageTitle', 'Страница редактирования товаров');
+        $smarty->assign('rsCategories', $rsAllCategories);
+        $smarty->assign('rsProducts', $rsProducts);
+        loadTemplate($smarty, 'admin-header');
+        loadTemplate($smarty, 'admin-product');
+        loadTemplate($smarty, 'admin-footer');
+        return true;
+    }
+    if (addProduct(connection(), $_POST) === true) {
+        header('Location: /admin/products/');
+        return true;
+    }
+    header('Location: /admin/products/');
+    return false;
 }
