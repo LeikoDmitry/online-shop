@@ -15,17 +15,20 @@ $template = 'default';
 /** @var  $templateAdmin - шаблон админки */
 $templateAdmin = 'admin';
 
+
 /** @var  $path - путь к шаблонам */
 $path = __DIR__ . '/../views/' . $template . '/';
 
  /** @var  $pathAdmin - путь к шпблонам админки */
 $pathAdmin = __DIR__ . '/../views/' . $templateAdmin . '/';
 
+
 /** @var  $templates - шаблоны по дефолту в веб пространстве */
 $templates = '/' . $template . '/';
 
 /** @var  $templates - шаблоны админки в веб пространстве */
 $templatesAdmin = '/' . $templateAdmin . '/';
+
 
 // Устанока путей к файлам
 define('TEMPLATE_PREFIX', $path);
