@@ -1,5 +1,5 @@
-<div class="col-md-12">
-    <div class="jumbotron jumbotron-fluid">
+<div class="col-lg-12">
+    <div class="jumbotron">
         <div class="container">
             <h2>{$pageTitle}</h2>
             <hr />
@@ -70,13 +70,11 @@
             <tr>
                 <td>{$product['id']}</td>
                 <td>
-                    <select name="parent_id" class="form-control">
-                        <option value="0">Главная</option>
-                        {foreach $rsCategories as $val}
-                            <option {if $val['id'] == $product['category_id']}selected{/if}
-                                    value="{$val['id']}">{$val['name']}</option>
-                        {/foreach}
-                    </select>
+                {foreach $rsCategories as $val}
+                    {if $val['id'] == $product['category_id']}
+                        {$val['name']}
+                    {/if}
+                {/foreach}
                 </td>
                 <td>{$product['name']}</td>
                 <td>{$product['description']}</td>
@@ -84,8 +82,8 @@
                 <td>{$product['image']}</td>
                 <td>{$product['status']}</td>
                 <td>
-                    <a href="#" class="btn btn-outline-warning">Редактировать</a>
-                    <a href="#" class="btn btn-outline-danger">Удалить</a>
+                    <a href="/admin/proupdate/{$product['id']}/" class="btn btn-outline-warning">Редактировать</a>
+                    <a href="/admin/prodelete/{$product['id']}/" class="btn btn-outline-danger">Удалить</a>
                 </td>
             </tr>
         {/foreach}

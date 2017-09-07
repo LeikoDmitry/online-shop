@@ -88,12 +88,18 @@ function getProducts(PDO $PDO)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Добавление продукта
+ * @param PDO $PDO
+ * @param array $data
+ * @return bool
+ */
 function addProduct(PDO $PDO, array $data)
 {
-    $empty = array_map(function (){
-        return (empty($item));
+    $empty = array_map(function ($value){
+        return ! empty($value) ? $value : null;
     }, $data);
-    if (in_array(false, $empty, true)) {
+    if (in_array(null, $empty, true)) {
         return false;
     }
     $pathFile = 'default.png';
@@ -108,6 +114,39 @@ function addProduct(PDO $PDO, array $data)
     return $statement->execute($data);
 }
 
+/**
+ * Удаление продукта
+ * @param PDO $PDO
+ * @param $idProduct
+ * @return bool
+ */
+function deleteProduct(PDO $PDO, $idProduct)
+{
+    $sql = 'DELETE FROM products WHERE id = :idProduct';
+    $statement = $PDO->prepare($sql);
+    return $statement->execute(['idProduct' => (int) $idProduct]);
+}
+
+function updateProduct(PDO $PDO, array $data)
+{
+    $empty = array_map(function ($value) {
+        return ! empty($value) ? $value : null;
+    }, $data);
+    if (in_array(null, $empty, true)) {
+        return false;
+    }
+    $sql = 'UPDATE products 
+            SET category_id = :category_id, name = :name, description = :description, price = :price, image = :image, status = :status 
+            WHERE id = :id';
+    $statement = $PDO->prepare($sql);
+    return $statement->execute($data);
+}
+
+/**
+ * Загрузка изображения
+ * @param array $data
+ * @return bool|string
+ */
 function uploadImages(array $data)
 {
     if (! is_uploaded_file($data['image']['tmp_name'])) {
@@ -120,9 +159,9 @@ function uploadImages(array $data)
     $unique_dir = uniqid();
     $dir = __DIR__ . '/../public/upload/' . $unique_dir;
     mkdir($dir, 0777, true);
-    $name = $data['image']['name'];
-    if (! move_uploaded_file($tmp_name, $dir . '/' . $name)) {
+    $name = explode('.', $data['image']['name']);
+    if (! move_uploaded_file($tmp_name, $dir . '/' . $unique_dir . '.' . $name[1])) {
         return false;
     }
-    return $unique_dir . '/' . $name;
+    return $unique_dir . '/' . $unique_dir . '.' . $name[1];
 }

@@ -4,6 +4,8 @@
  * Модель заказов
  */
 
+include __DIR__ . '/../models/UsersModel.php';
+
 /**
  * Добавление нового заказа
  * @param PDO $PDO
@@ -30,4 +32,20 @@ function makeNewOrder(PDO $PDO)
         return false;
     }
     return $id;
+}
+
+function getOrders(PDO $PDO)
+{
+    $rsArray = [];
+    $sql = 'SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id';
+    $statement = $PDO->prepare($sql);
+    $statement->execute();
+    while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        $rsChildren = getPurchesOrders($PDO, $row['id']);
+        if ($rsChildren) {
+            $row['children'] = $rsChildren;
+        }
+        $rsArray[] = $row;
+    }
+    return $rsArray;
 }

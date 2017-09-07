@@ -80,10 +80,61 @@ function productsAction(Smarty $smarty)
         loadTemplate($smarty, 'admin-footer');
         return true;
     }
+    /** Добавление продуктов */
     if (addProduct(connection(), $_POST) === true) {
         header('Location: /admin/products/');
         return true;
     }
     header('Location: /admin/products/');
     return false;
+}
+
+/**
+ * Удаление продуктов
+ * @return bool
+ */
+function prodeleteAction()
+{
+    $id = isset($_GET['id']) ? $_GET['id'] : null;
+    deleteProduct(connection(), $id);
+    header('Location: /admin/products/');
+    return true;
+}
+
+/**
+ * Обновление продукта
+ * @param Smarty $smarty
+ * @return bool
+ */
+function proupdateAction(Smarty $smarty)
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $product = getProductById(connection(), $id);
+        if (! $product) {
+            header('Location: /admin/products/');
+            return false;
+        }
+        $smarty->assign([
+            'product'      => $product,
+            'rsCategories' => getAllCategories(connection()),
+            'pageTitle'    => 'Редактирование продукта'
+        ]);
+        loadTemplate($smarty, 'admin-header');
+        loadTemplate($smarty, 'admin-updateProduct');
+        loadTemplate($smarty, 'admin-footer');
+        return true;
+    }
+    $response = updateProduct(connection(), $_POST);
+    if (! $response) {
+        header('Location: /admin/products/');
+        return false;
+    }
+    header('Location: /admin/products/');
+    return true;
+}
+
+
+function ordersAction(Smarty $smarty)
+{
 }
