@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName admin
+AuthUserFile /opt/lampp/htdocs/shop-local/pwdaccess
+require valid-user

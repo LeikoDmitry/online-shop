@@ -155,14 +155,22 @@ function ordersAction(Smarty $smarty)
  * Удаление заказа
  * @return bool
  */
-function updateorderAction()
+function updateorderAction(Smarty $smarty)
 {
     $idOrder = isset($_GET['id']) ? (int) $_GET['id'] : null;
     if ($idOrder === null) {
         header('Location: /admin/orders/');
         return false;
     }
-    if (updateProduct(connection(), $_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $smarty->assign('pageTitle', 'Обновление заказа');
+        $smarty->assign('order', getOrderById(connection(), $idOrder));
+        loadTemplate($smarty, 'admin-header');
+        loadTemplate($smarty, 'admin-update-order');
+        loadTemplate($smarty, 'admin-footer');
+        return true;
+    }
+    if (updateOrder(connection(), $_POST)) {
         header('Location: /admin/orders/');
         return true;
     }

@@ -43,7 +43,7 @@ function getOrders(PDO $PDO)
 {
     $rsArray = [];
     $sql = 'SELECT 
-            orders.id as order_id, orders.status, orders.comment, orders.date_created, orders.comment, orders.status as order_status, 
+            orders.id as order_id, orders.status, orders.comment, orders.date_created, orders.comment, orders.status as order_status, orders.date_payment, 
             users.id as user_id, users.name as user_name, users.adress, users.email, users.phone 
             FROM orders 
             LEFT JOIN users 
@@ -97,4 +97,18 @@ function updateOrder(PDO $PDO, array $data)
         'date_payment'      => $data['date_payment'],
         'id'                => $data['id'],
     ]);
+}
+
+/**
+ * Получение заказа по его индификатору
+ * @param PDO $PDO
+ * @param $id
+ * @return mixed
+ */
+function getOrderById(PDO $PDO, $id)
+{
+    $sql = 'SELECT * FROM orders WHERE orders.id = :id';
+    $statement = $PDO->prepare($sql);
+    $statement->execute(['id' => (int) $id]);
+    return $statement->fetch(PDO::FETCH_ASSOC);
 }
