@@ -134,7 +134,82 @@ function proupdateAction(Smarty $smarty)
     return true;
 }
 
-
+/**
+ * Получение
+ * @param Smarty $smarty
+ * @return bool
+ */
 function ordersAction(Smarty $smarty)
 {
+    $smarty->assign([
+        'orders' => getOrders(connection()),
+        'pageTitle' => 'Страница управления заказами'
+    ]);
+    loadTemplate($smarty, 'admin-header');
+    loadTemplate($smarty, 'admin-orders');
+    loadTemplate($smarty, 'admin-footer');
+    return true;
 }
+
+/**
+ * Удаление заказа
+ * @return bool
+ */
+function updateorderAction()
+{
+    $idOrder = isset($_GET['id']) ? (int) $_GET['id'] : null;
+    if ($idOrder === null) {
+        header('Location: /admin/orders/');
+        return false;
+    }
+    if (updateProduct(connection(), $_POST)) {
+        header('Location: /admin/orders/');
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Удаление заказа
+ * @return bool
+ */
+function deleteoderAction()
+{
+    $idOrder = isset($_GET['id']) ? (int) $_GET['id'] : null;
+    if ($idOrder === null) {
+        header('Location: /admin/orders/');
+        return false;
+    }
+    if (deleteOrder(connection(), $idOrder) === true) {
+        header('Location: /admin/orders/');
+        return true;
+    }
+    header('Location: /admin/');
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
