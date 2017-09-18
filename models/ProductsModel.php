@@ -8,26 +8,40 @@
  * Получение последних добаленных продуктов
  * @param $PDO PDO
  * @param $limit int
+ * @param $offset int
  * @return array
  */
-function getLastProduct(PDO $PDO, $limit = null)
+function getLastProduct(PDO $PDO, $offset = 1, $limit = 9)
 {
     try {
+        $rs = [];
         $sql = 'SELECT id, category_id, name, description, price, image, status FROM products ORDER BY id DESC';
         if ($limit) {
-            $sql .= ' LIMIT ' . $limit;
+            $sql .= ' LIMIT ' . $limit . ' OFFSET '  . $offset;
         }
         $statement = $PDO->prepare($sql);
         $statement->execute();
-        $rs = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if (! $rs) {
-            return [];
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $rs[] = $row;
         }
         return $rs;
     } catch (PDOException $exception) {
         echo $exception->getMessage();
         exit;
     }
+}
+
+/**
+ * Получение количества продуктов
+ * @param PDO $PDO
+ * @return mixed
+ */
+function getCountProduct(PDO $PDO)
+{
+    $sqlCount = 'SELECT COUNT(products.id) AS ctn FROM products';
+    $state = $PDO->prepare($sqlCount);
+    $state->execute();
+    return $state->fetch(PDO::FETCH_ASSOC)['ctn'];
 }
 
 /**

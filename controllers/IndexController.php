@@ -8,6 +8,7 @@
 include_once __DIR__ . '/../models/CategoryModel.php';
 include_once __DIR__ . '/../models/ProductsModel.php';
 
+
 /**
  * Экшен по умолчанию
  * @param $smarty
@@ -15,8 +16,15 @@ include_once __DIR__ . '/../models/ProductsModel.php';
  */
 function indexAction(Smarty $smarty)
 {
+    $counts  = getCountProduct(connection());
+    $paginator = [];
+    $paginator['perPage'] = 6;
+    $paginator['current_page'] = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+    $paginator['offset'] = ($paginator['current_page'] * $paginator['perPage']) - $paginator['perPage'];
+    $products = getLastProduct(connection(), $paginator['offset'], $paginator['perPage']);
+    $paginator['pageCount'] = ceil($counts / $paginator['perPage']);
     $categories = getAllCategories(connection());
-    $products = getLastProduct(connection(), 16);
+    $smarty->assign('paginator', $paginator);
     $smarty->assign('pageTitle', 'Главная страница сайта');
     $smarty->assign('categories', $categories);
     $smarty->assign('products', $products);
