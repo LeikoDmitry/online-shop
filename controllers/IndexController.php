@@ -18,7 +18,7 @@ function indexAction(Smarty $smarty)
 {
     $counts  = getCountProduct(connection());
     $paginator = [];
-    $paginator['perPage'] = 6;
+    $paginator['perPage'] = 3;
     $paginator['current_page'] = isset($_GET['page']) ? (int) $_GET['page'] : 1;
     $paginator['offset'] = ($paginator['current_page'] * $paginator['perPage']) - $paginator['perPage'];
     $products = getLastProduct(connection(), $paginator['offset'], $paginator['perPage']);
