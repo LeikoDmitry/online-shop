@@ -37,8 +37,6 @@ define('TEMPLATE_POSTFIX', '.tpl');
 define('TEMPLATE_WEB_PATH', $templates);
 define('TEMPLATE_WEB_ADMIN', $templatesAdmin);
 
-include_once __DIR__ . '/../library/smarty/libs/Smarty.class.php';
-
 /** @var  $smarty - установка шаблонизатора */
 $smarty = new Smarty();
 $smarty->setTemplateDir(TEMPLATE_PREFIX);
@@ -46,6 +44,25 @@ $smarty->setCompileDir(__DIR__ . '/../tmp/smarty/templates_c');
 $smarty->setCacheDir(__DIR__ . '/../tmp/smarty/cache');
 $smarty->setConfigDir(__DIR__ . '/../library/smarty/config');
 $smarty->assign('templateWebPath', TEMPLATE_WEB_PATH);
+
+/** @var  $router \Zend\Router\Http\TreeRouteStack*/
+$router = new \Zend\Router\Http\TreeRouteStack();
+
+$router->addRoutes([
+    'home' => [
+        'type' => 'literal',
+        'options' => [
+            'route' => '/',
+            'defaults' => [
+                'controller' => 'Index',
+                'action' => 'index',
+            ],
+        ],
+    ],
+]);
+
+$routeMatch = $router->match(new \Zend\Http\PhpEnvironment\Request());
+
 
 
 

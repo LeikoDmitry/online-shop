@@ -18,7 +18,7 @@ function registerNewUser(PDO $PDO, array $data)
         'name'             => FILTER_SANITIZE_STRING,
         'password'         => FILTER_SANITIZE_STRING,
         'phone'            => FILTER_SANITIZE_STRING,
-        'adress'           => FILTER_SANITIZE_STRING,
+        'address'           => FILTER_SANITIZE_STRING,
     ]);
     if (checkEmailUser($PDO, $user['email'])) {
         $verify_password_string = $user['password'];
@@ -31,7 +31,7 @@ function registerNewUser(PDO $PDO, array $data)
             $_SESSION['errors'] = ['password' => false];
             return false;
         }
-        $sql = 'INSERT INTO users(email, password, name, phone, adress) VALUES (:email, :password, :name, :phone, :adress)';
+        $sql = 'INSERT INTO users(email, password, name, phone, address) VALUES (:email, :password, :name, :phone, :address)';
         $statement = $PDO->prepare($sql);
         $statement->execute($user);
         $rs = $statement->rowCount();
@@ -55,12 +55,11 @@ function loginUser(PDO $PDO, array $data)
         'email'            => FILTER_VALIDATE_EMAIL,
         'password'         => FILTER_SANITIZE_STRING,
     ]);
-    $hash = password_hash($data['password'], PASSWORD_BCRYPT);
     $sql = 'SELECT * FROM users WHERE email = :email';
     $state = $PDO->prepare($sql);
     $state->execute(['email' => $user['email']]);
     $us = $state->fetch(PDO::FETCH_ASSOC);
-    if (password_verify($data['password'], $us['password'])) {
+    if (password_verify($user['password'], $us['password'])) {
         return $us;
     }
     return false;

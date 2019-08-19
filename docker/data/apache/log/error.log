@@ -1,0 +1,19 @@
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.30.0.3. Set the 'ServerName' directive globally to suppress this message
+[Tue Mar 05 08:20:53.422256 2019] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.3.2 configured -- resuming normal operations
+[Tue Mar 05 08:20:53.427843 2019] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+[Tue Mar 05 08:23:17.573268 2019] [mpm_prefork:notice] [pid 1] AH00169: caught SIGTERM, shutting down
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.30.0.3. Set the 'ServerName' directive globally to suppress this message
+[Tue Mar 05 08:23:23.146762 2019] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.3.2 configured -- resuming normal operations
+[Tue Mar 05 08:23:23.146805 2019] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+[Tue Mar 05 09:03:10.126192 2019] [authn_file:error] [pid 22] (2)No such file or directory: [client 172.30.0.1:40746] AH01620: Could not open password file: /opt/lampp/htdocs/shop-local/pwdaccess
+[Tue Mar 05 09:05:35.213880 2019] [authn_file:error] [pid 20] (2)No such file or directory: [client 172.30.0.1:40770] AH01620: Could not open password file: /opt/lampp/htdocs/shop-local/pwdaccess
+[Tue Mar 05 09:05:37.099412 2019] [authn_file:error] [pid 16] (2)No such file or directory: [client 172.30.0.1:40774] AH01620: Could not open password file: /opt/lampp/htdocs/shop-local/pwdaccess
+[Tue Mar 05 09:05:48.562565 2019] [authn_file:error] [pid 19] (2)No such file or directory: [client 172.30.0.1:40796] AH01620: Could not open password file: /opt/lampp/htdocs/shop-local/pwdaccess
+[Tue Mar 05 09:06:29.162841 2019] [authn_file:error] [pid 22] (2)No such file or directory: [client 172.30.0.1:40802] AH01620: Could not open password file: /opt/lampp/htdocs/shop-local/pwdaccess
+[Tue Mar 05 09:06:33.273857 2019] [authn_file:error] [pid 21] (2)No such file or directory: [client 172.30.0.1:40806] AH01620: Could not open password file: /opt/lampp/htdocs/shop-local/pwdaccess
+[Tue Mar 05 09:12:23.000888 2019] [auth_basic:error] [pid 20] [client 172.30.0.1:41000] AH01617: user admin: authentication failure for "/admin": Password Mismatch
+[Tue Mar 05 11:16:58.777187 2019] [mpm_prefork:notice] [pid 1] AH00169: caught SIGTERM, shutting down
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.30.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Mar 07 15:35:39.860721 2019] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.3.2 configured -- resuming normal operations
+[Thu Mar 07 15:35:39.860860 2019] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+[Thu Mar 07 17:41:25.060646 2019] [mpm_prefork:notice] [pid 1] AH00169: caught SIGTERM, shutting down

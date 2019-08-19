@@ -17,9 +17,9 @@ function loadPage(Smarty $smarty, $controller, $action = 'index')
     if (file_exists($file)) {
         include_once $file;
         $method = $action . 'Action';
-        set_error_handler(function ($severity, $message, $file, $line){
-            throw new ErrorException($message, 0, $severity, $file, $line);
-        });
+        if ($action === 'error') {
+            http_response_code(404);
+        }
         call_user_func($method, $smarty);
         return true;
     }
@@ -36,16 +36,4 @@ function loadTemplate(Smarty $smarty, $templateName)
 {
     $smarty->display($templateName . TEMPLATE_POSTFIX);
     return true;
-}
-
-/**
- * Функция отладки
- * @param array|string $items
- */
-function dump($items)
-{
-    echo '<pre>';
-        print_r($items);
-    echo '</pre>';
-    exit;
 }

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:5.7
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: super-root-shop
+      MYSQL_DATABASE: shop-local
+      MYSQL_USER: shop-user
+      MYSQL_PASSWORD: shop-user-path
+    volumes:
+      - ./docker/data/mysql:/var/lib/mysql
+    ports:
+    - 3308:3306
+
+  shop:
+    build: docker/apache-php
+    links:
+      - database
+    ports:
+    - 80:80
+    volumes:
+    - .:/var/www/shop
+    - ./docker/data/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    - ./docker/data/apache/log:/var/log/apache2
+    depends_on:
+      - database

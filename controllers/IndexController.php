@@ -16,7 +16,11 @@ include_once __DIR__ . '/../models/ProductsModel.php';
  */
 function indexAction(Smarty $smarty)
 {
-    $counts  = getCountProduct(connection());
+    try {
+        $counts  = getCountProduct(connection());
+    } catch (RuntimeException $exception) {
+        $counts = [];
+    }
     $paginator = [];
     $paginator['perPage'] = 3;
     $paginator['current_page'] = isset($_GET['page']) ? (int) $_GET['page'] : 1;
@@ -30,6 +34,18 @@ function indexAction(Smarty $smarty)
     $smarty->assign('products', $products);
     loadTemplate($smarty, 'header');
     loadTemplate($smarty, 'index');
+    loadTemplate($smarty, 'footer');
+    return true;
+}
+
+/**
+ * @param Smarty $smarty
+ * @return mixed
+ */
+function errorAction(Smarty $smarty)
+{
+    loadTemplate($smarty, 'header');
+    loadTemplate($smarty, 'error');
     loadTemplate($smarty, 'footer');
     return true;
 }

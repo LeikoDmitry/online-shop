@@ -1,0 +1,6 @@
+/nbproject/private/
+.idea
+composer.lock
+vendor
+tmp
+docker/data/mysql

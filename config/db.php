@@ -10,15 +10,10 @@
  */
 function connection()
 {
-//    $config = [
-//        'dns' => 'mysql:host=192.168.0.2;dbname=gopagoda;charset=utf8',
-//        'username' => 'latosha',
-//        'password' => '0kXcCYWG',
-//    ];
     $config = [
-        'dns' => 'mysql:host=localhost;dbname=shop-local;charset=utf8',
-        'username' => 'root',
-        'password' => '',
+        'dns' => 'mysql:host=database;dbname=shop-local;charset=utf8',
+        'username' => 'shop-user',
+        'password' => 'shop-user-path',
     ];
     try {
         $db = new PDO($config['dns'], $config['username'], $config['password']);
