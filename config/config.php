@@ -50,7 +50,7 @@ $router = new \Zend\Router\Http\TreeRouteStack();
 
 $router->addRoutes([
     'home' => [
-        'type' => 'literal',
+        'type' => \Zend\Router\Http\Literal::class,
         'options' => [
             'route' => '/',
             'defaults' => [
