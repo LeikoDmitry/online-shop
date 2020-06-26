@@ -26,7 +26,7 @@ function indexAction(Smarty $smarty)
     $paginator['current_page'] = isset($_GET['page']) ? (int) $_GET['page'] : 1;
     $paginator['offset'] = ($paginator['current_page'] * $paginator['perPage']) - $paginator['perPage'];
     $products = getLastProduct(connection(), $paginator['offset'], $paginator['perPage']);
-    $paginator['pageCount'] = ceil($counts / $paginator['perPage']);
+    $paginator['pageCount'] = (int) floor($counts / $paginator['perPage']);
     $categories = getAllCategories(connection());
     $smarty->assign('paginator', $paginator);
     $smarty->assign('pageTitle', 'Главная страница сайта');
@@ -35,17 +35,4 @@ function indexAction(Smarty $smarty)
     loadTemplate($smarty, 'header');
     loadTemplate($smarty, 'index');
     loadTemplate($smarty, 'footer');
-    return true;
-}
-
-/**
- * @param Smarty $smarty
- * @return mixed
- */
-function errorAction(Smarty $smarty)
-{
-    loadTemplate($smarty, 'header');
-    loadTemplate($smarty, 'error');
-    loadTemplate($smarty, 'footer');
-    return true;
 }

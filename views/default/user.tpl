@@ -71,8 +71,8 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputAdress" class="col-form-label">Adress</label>
-                <input name="adress" type="text" class="form-control" id="inputAdress" value="{$arrayUser['adress']}">
+                <label for="inputAdress" class="col-form-label">Address</label>
+                <input name="address" type="text" class="form-control" id="inputAdress" value="{$arrayUser['address']}">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPhone" class="col-form-label">Phone</label>

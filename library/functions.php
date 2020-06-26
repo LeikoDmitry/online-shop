@@ -9,7 +9,7 @@
  * @param Smarty
  * @param string $controller
  * @param string $action
- * @return boolean
+ * @return void
  */
 function loadPage(Smarty $smarty, $controller, $action = 'index')
 {
@@ -17,23 +17,18 @@ function loadPage(Smarty $smarty, $controller, $action = 'index')
     if (file_exists($file)) {
         include_once $file;
         $method = $action . 'Action';
-        if ($action === 'error') {
-            http_response_code(404);
-        }
         call_user_func($method, $smarty);
-        return true;
     }
-    throw new BadFunctionCallException('Функции с таким именем не существует');
 }
 
 /**
  * Загрузка нужного шаблона
  * @param Smarty $smarty
  * @param $templateName
- * @return boolean
+ * @return void
+ * @throws Exception
  */
 function loadTemplate(Smarty $smarty, $templateName)
 {
     $smarty->display($templateName . TEMPLATE_POSTFIX);
-    return true;
 }

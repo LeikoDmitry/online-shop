@@ -106,7 +106,6 @@ function loginAction(Smarty $smarty)
 
 /**
  * Выход пользователя
- * @return $this
  */
 function logoutAction()
 {
@@ -115,7 +114,5 @@ function logoutAction()
         unset($_SESSION['cart']);
         session_regenerate_id();
         header('Location: /');
-        return true;
     }
-    return false;
 }

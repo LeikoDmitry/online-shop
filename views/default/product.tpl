@@ -9,7 +9,11 @@
             <p {if ! $itemInCart} style="display: none;" {/if} class="lead" id="remove_item_cart_{$rsProduct['id']}"><a data-index="{$rsProduct['id']}" id="remove_cart_link" href="#">Удалить из корзины</a></p>
         </div>
         <div class="col-md-4">
-            <img class="img-fluid" width="200" height="200" src="{$templateWebPath}images/1.jpg">
+            {if ! $item['image'] }
+                <img src="{$templateWebUploadPath}default.jpg" width="200" height="200" class="img-fluid" alt="Generic placeholder thumbnail">
+            {else}
+                <img src="{$templateWebUploadPath}{$item['image']}" width="200" height="200" class="img-fluid" alt="Generic placeholder thumbnail">
+            {/if}
         </div>
     </div>
 </div>

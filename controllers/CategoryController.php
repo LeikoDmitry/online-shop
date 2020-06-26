@@ -17,7 +17,7 @@ function indexAction(Smarty $smarty)
 {
     $rsProducts = null;
     $rsChildCategory = null;
-    $id =  (int) isset($_GET['id']) ? $_GET['id'] : null;
+    $id =  isset($_GET['id']) ? $_GET['id'] : null;
     if ($id !== null) {
         $rsCategory = getCategoryById(connection(), $id);
         if ($rsCategory['parent_id'] == 0) {

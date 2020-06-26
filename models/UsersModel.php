@@ -99,10 +99,10 @@ function updateUserData(PDO $PDO, array $data)
     $data = filter_var_array($data, [
         'name' => FILTER_SANITIZE_STRING,
         'phone' => FILTER_SANITIZE_STRING,
-        'adress' => FILTER_SANITIZE_STRING,
+        'address' => FILTER_SANITIZE_STRING,
     ]);
     $data['email'] = isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : false;
-    $sql = 'UPDATE users SET name = :name, phone = :phone, adress = :adress WHERE email = :email';
+    $sql = 'UPDATE users SET name = :name, phone = :phone, address = :address WHERE email = :email';
     $state = $PDO->prepare($sql);
     if ($state->execute($data)) {
         return true;

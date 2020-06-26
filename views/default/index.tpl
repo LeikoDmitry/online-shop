@@ -4,7 +4,13 @@
     <section class="row text-center placeholders">
         {foreach $products as $item}
             <div class="col-6 col-sm-4 placeholder">
-                <a href="/product/{$item['id']}/"><img src="{$templateWebPath}images/1.jpg" width="200" height="200" class="img-fluid" alt="Generic placeholder thumbnail"></a>
+                <a href="/product/{$item['id']}/">
+                    {if ! $item['image'] }
+                        <img src="{$templateWebUploadPath}default.jpg" width="200" height="200" class="img-fluid" alt="Generic placeholder thumbnail">
+                    {else}
+                        <img src="{$templateWebUploadPath}{$item['image']}" width="200" height="200" class="img-fluid" alt="Generic placeholder thumbnail">
+                    {/if}
+                </a>
                 <h4>{$item['price']}</h4>
                 <div class="text-muted"><a href="/product/{$item['id']}/">{$item['name']}</a></div>
             </div>

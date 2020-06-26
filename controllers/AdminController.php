@@ -19,6 +19,7 @@ $smarty->assign('templateWebPath', TEMPLATE_WEB_ADMIN);
  * Главная страница админки
  * @param Smarty $smarty
  * @return bool
+ * @throws Exception
  */
 function indexAction(Smarty $smarty)
 {

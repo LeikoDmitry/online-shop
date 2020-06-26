@@ -120,7 +120,7 @@ function addProduct(PDO $PDO, array $data)
     if ($_FILES['image']['error'] != UPLOAD_ERR_NO_FILE) {
         $pathFile = uploadImages($_FILES);
     }
-    $data['image'] = $pathFile;
+    $data['image'] = basename($pathFile);
     $sql = 'INSERT 
             INTO products (name , price, status, category_id, description, image) 
             VALUES (:name, :price, :status, :category_id, :description, :image)';
@@ -170,12 +170,11 @@ function uploadImages(array $data)
         return false;
     }
     $tmp_name = $data['image']['tmp_name'];
-    $unique_dir = uniqid();
-    $dir = __DIR__ . '/../public/upload/' . $unique_dir;
-    mkdir($dir, 0777, true);
+    $dir = '../public/uploads';
     $name = explode('.', $data['image']['name']);
-    if (! move_uploaded_file($tmp_name, $dir . '/' . $unique_dir . '.' . $name[1])) {
+    $path = $dir . '/' . uniqid() . '.' . $name[1];
+    if (! move_uploaded_file($tmp_name, $path)) {
         return false;
     }
-    return $unique_dir . '/' . $unique_dir . '.' . $name[1];
+    return $path;
 }
