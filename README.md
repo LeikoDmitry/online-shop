@@ -8,8 +8,8 @@ To get started with the project, follow these steps:
 ---------------------------------------------------
 
     Clone the repository: git clone https://github.com/LeikoDmitry/online-shop.git
-    Install the dependencies: npm install
-    Start the server: npm start
+    Install the dependencies: composer install
+    Start the server: docker compose up -d
 
 Features
 --------
