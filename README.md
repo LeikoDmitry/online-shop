@@ -1,4 +1,4 @@
-Open Source Shop
+Open source shop
 ================
 
 This is an open-source project for an online shop. The project is built using PHP and MySQl
