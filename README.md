@@ -1,8 +1,10 @@
 Open source shop
 ================
 
-This is an open-source project for an online shop. The project is built using PHP and MySQl
+This is an open-source project for an online shop. The project is built using PHP and MySQL
+
 Getting Started
+---------------
 
 To get started with the project, follow these steps:
 ---------------------------------------------------
